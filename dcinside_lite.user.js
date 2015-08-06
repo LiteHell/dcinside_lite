@@ -87,7 +87,7 @@
 	autoName : "",
 	autoPassword : "",
 	longExpires : 0,
-
+	
 	commentColor : 1,
 	commentColorType : "gc",
 	syncStore : 1,
@@ -927,7 +927,7 @@
 				cElement("label", dclset.body.multiPage.innerList.pageCount, {"for":"DCL_pageCount",textContent:"한 번에 "});
 				cElement("input", dclset.body.multiPage.innerList.pageCount, {type:"text", className:"number", size:"2", id:"DCL_pageCount"});
 				cElement(null, dclset.body.multiPage.innerList.pageCount, "페이지 로드");
-				
+			
 			dclset.body.easyView = cElement("div", dclset.body);
 			cElement("h3", dclset.body.easyView, "바로보기");
 			dclset.body.easyView.innerList = cElement("ul", dclset.body.easyView);
@@ -1022,6 +1022,7 @@
 				dclset.body.setEtc.innerList.cookieDelete = cElement("li", dclset.body.setEtc.innerList);
 				cElement("input", dclset.body.setEtc.innerList.cookieDelete, {type:"button", value:"로그인 쿠키 초기화"}, cookieDelete);
 				
+			
 			dclset.body.setStore = cElement("div", dclset.body);
 			cElement("h3", dclset.body.setStore, "저장소");
 			dclset.body.setStore.innerList = cElement("ul", dclset.body.setStore);
@@ -2618,6 +2619,18 @@
 							},'POST',{"Content-Type":"application/x-www-form-urlencoded","X-Requested-With":"XMLHttpRequest"},formWalk(delForm));
 					}
 				});
+			});
+			cElement("a",bottomBtn,{textContent:"아카이브",href:"#NothingToLink",class:'DCL_layerBtn'},function(e){
+				e.preventDefault();
+				var archivePCWeb=false;
+				
+				var header=archivePCWeb?{}:{"User-Agent":"Mozilla/5.0 (iPhone; U; CPU iPhone OS 3_0 like Mac OS X; en-us) AppleWebKit/528.18 (KHTML, like Gecko) Version/4.0 Mobile/7A341 Safari/528.16"};
+				var urlToArchive=archivePCWeb ? 'http://gall.dcinside.com/board/view/?id='+_ID+'&no='+layer.no : 'http://m.dcinside.com/view.php?id='+_ID+'&no='+layer.no;
+					simpleRequest('http://web.archive.org/save/'+urlToArchive,function(r){
+							var matches=/var redirUrl = \"(.+?)\";/.exec(r.responseText);
+							var archiveUrl='http://web.archive.org'+matches[1];
+							alert('아카이브 주소 : '+archiveUrl+'\n렉이 좀 걸릴 수 있습니다.');
+					},'GET',header);
 			});
 			cElement("span",bottomBtn,{className:"DCL_layerLoad"});
 		}
